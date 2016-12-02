@@ -3,7 +3,7 @@
 $url = $_SERVER['QUERY_STRING'];
 $servername = "localhost";
 $username = "my_username";
-$password = "My_password";
+$password = "my_password";
 $dbname = "my_db";
 
 	
