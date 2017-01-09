@@ -23,15 +23,24 @@ float uv = 0;
 
 void parseWeatherData(unsigned char* buffer){
 
+union {
+    unsigned short int integer;
+    unsigned char byte[2];
+} temp16;
+
 	if (buffer[15] & 0x40){
 		printf("Error communicating with weather station\n");		
 		return;
 	}
 
 	intHum = buffer[1];
-	intTemp = (short int)(buffer[2] + buffer[3] * 256) / 10.0;
+        temp16.byte[0] = buffer[2];
+        temp16.byte[1] = buffer[3];
+        intTemp = temp16.integer / 10.0;
 	extHum = buffer[4];
-	extTemp = (short int)(buffer[5] + buffer[6] * 256) / 10.0;
+        temp16.byte[0] = buffer[5];
+        temp16.byte[1] = buffer[6];
+        extTemp = temp16.integer / 10.0;
 	pressure = (buffer[7] + buffer[8] * 256) / 10.0;
 	windSpeed = 3.6 * buffer[9] / 10.0;
 	windGust = 3.6 * buffer[10] / 10.0;
